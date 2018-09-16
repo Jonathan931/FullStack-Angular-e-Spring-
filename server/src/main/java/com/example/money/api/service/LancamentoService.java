@@ -1,6 +1,7 @@
 package com.example.money.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.example.money.api.model.Lancamento;
@@ -28,6 +29,25 @@ public class LancamentoService {
 		return lancamentoRepository.save(lancamento);
 	
 	}
+	
+	public void delete(Long codigo ) {
+		verificaLancamento(codigo);
+		lancamentoRepository.delete(codigo);
+	
+	}
+	
+	public void verificaLancamento( Long codigo ) {
+		
+		Lancamento lancamento = lancamentoRepository.findOne(codigo);
+		
+		if ( lancamento == null  ) {
+			throw new EmptyResultDataAccessException(1);
+		}
+	}
+	
+	
+	
+	
 	
 	
 }
