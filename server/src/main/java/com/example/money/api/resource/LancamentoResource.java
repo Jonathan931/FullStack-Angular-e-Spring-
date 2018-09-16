@@ -46,13 +46,13 @@ public class LancamentoResource {
 	
 	@GetMapping
 	public List<Lancamento> pesquisar( LancamentoFilter lancamentoFilter){
-		return lancamentoRepository.findAll();
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 	
-	@GetMapping
-	private ResponseEntity<List<Lancamento>> listarTodos(){
-		return ResponseEntity.ok(lancamentoRepository.findAll());
-	}
+//	@GetMapping
+//	private ResponseEntity<List<Lancamento>> listarTodos(){
+//		return ResponseEntity.ok(lancamentoRepository.findAll());
+//	}
 	
 	@GetMapping("/{codigo}")
 	private ResponseEntity<Lancamento> buscarPeloCodigo( @PathVariable Long codigo ){

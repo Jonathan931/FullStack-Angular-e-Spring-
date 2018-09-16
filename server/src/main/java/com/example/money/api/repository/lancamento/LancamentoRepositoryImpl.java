@@ -26,18 +26,18 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 	public List<Lancamento> filtrar(LancamentoFilter lancamentoFilter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Lancamento> criteria = builder.createQuery(Lancamento.class);
+		Root<Lancamento> root = criteria.from(Lancamento.class);		
+		/* Criando Restrições */		
+		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
+		criteria.where(predicates);
 		
 		TypedQuery<Lancamento> query = manager.createQuery(criteria);
-		Root<Lancamento> root = criteria.from(Lancamento.class);
-		
-		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
-		
-		criteria.where(predicates);
 		return query.getResultList();
 	}
 
 	private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder,
 			Root<Lancamento> root) {
+		
 		List<Predicate> predicates = new ArrayList<>();
 		
 		if ( !StringUtils.isEmpty(lancamentoFilter.getDescricao())) {		
